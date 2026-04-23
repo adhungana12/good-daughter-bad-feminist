@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Good Daughter / Bad Feminist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Libre+Franklin:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root {
+  --crimson: #9B1B30;
+  --crimson-bright: #D4213D;
+  --cobalt: #1B3A8C;
+  --cobalt-deep: #0D1F5C;
+  --gold: #C8983E;
+  --gold-light: #E8C96A;
+  --earth: #6B4F3A;
+  --cream: #F7F0E3;
+  --cream-dark: #EDE4D3;
+  --ink: #1A1410;
+  --paper: #FAF6EE;
+  --marigold: #E8862A;
+  --font-hand: 'Caveat', cursive;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Libre Franklin', sans-serif;
+}
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--crimson); color: var(--cream); }
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+}
+
+/* =============================================
+   NAV
+============================================= */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 9000; padding: 18px 30px;
+  transition: all 0.5s ease;
+}
+.nav.scrolled {
+  background: rgba(26,20,16,0.88);
+  backdrop-filter: blur(14px);
+  padding: 12px 30px;
+}
+.nav-inner {
+  max-width: 1300px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-brand {
+  font-family: var(--font-hand); font-size: 1.3rem; font-weight: 700;
+  color: var(--cream); opacity: 0; transition: opacity 0.4s;
+}
+.nav.scrolled .nav-brand { opacity: 1; }
+.nav-dots { display: flex; gap: 20px; align-items: center; }
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(247,240,227,0.3); transition: all 0.3s;
+  border: none; cursor: pointer;
+}
+.nav-dot:hover, .nav-dot.active {
+  background: var(--crimson-bright); transform: scale(1.5);
+}
+
+/* =============================================
+   LANDING
+============================================= */
+.landing {
+  min-height: 100vh; display: flex; align-items: center;
+  justify-content: center; position: relative;
+  background: var(--ink); overflow: hidden;
+}
+.landing-bg {
+  position: absolute; inset: 0;
+  background-image: url('IMG_0758.jpg');
+  background-size: cover; background-position: center;
+  opacity: 0.3; filter: saturate(1.2) contrast(1.1);
+}
+.landing::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg,
+    rgba(13,31,92,0.65) 0%rgba(26,20,16,0.75) 1, rgba(155,27,48,0.45) 50%, 00%);
+  z-index: 1;
+}
+.landing-content {
+  position: relative; z-index: 2; text-align: center; padding: 40px;
+}
+.landing-tag {
+  font-family: var(--font-hand); font-size: 1.3rem;
+  color: var(--gold-light); letter-spacing: 0.15em; margin-bottom: 12px;
+  animation: fadeDown 0.8s ease 0.3s both;
+}
+.landing-title { margin-bottom: 24px; }
+.title-good {
+  display: block; font-family: var(--font-display);
+  font-size: clamp(3rem,9vw,7rem); font-weight: 900;
+  color: var(--cream); line-height: 1.0;
+  animation: fadeUp 0.9s ease 0.5s both;
+}
+.title-slash {
+  display: block; font-family: var(--font-hand);
+  font-size: clamp(2rem,4vw,3rem); color: var(--crimson-bright);
+  margin: 4px 0; animation: fadeIn 0.6s ease 0.9s both;
+}
+.title-bad {
+  display: block; font-family: var(--font-display);
+  font-size: clamp(3rem,9vw,7rem); font-weight: 900;
+  font-style: italic; color: var(--crimson-bright); line-height: 1.0;
+  animation: fadeUp 0.9s ease 0.7s both;
+  text-shadow: 0 0 60px rgba(212,33,61,0.3);
+}
+.landing-sub {
+  font-family: var(--font-body); font-size: 0.8rem;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: rgba(247,240,227,0.5); margin-bottom: 50px;
+  animation: fadeIn 0.8s ease 1.1s both;
+}
+.enter-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 36px; border: 1px solid rgba(247,240,227,0.25);
+  background: transparent; color: var(--cream);
+  font-family: var(--font-hand); font-size: 1.35rem;
+  cursor: pointer; letter-spacing: 0.1em;
+  transition: all 0.4s ease; animation: fadeIn 0.8s ease 1.4s both;
+}
+.enter-btn:hover {
+  background: var(--crimson); border-color: var(--crimson);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(155,27,48,0.4);
+}
+.enter-btn svg { width: 18px; height: 18px; animation: bounce 2s ease infinite; }
+
+/* =============================================
+   INTRO
+============================================= */
+.intro {
+  padding: 120px 30px; background: var(--cream); position: relative;
+}
+.intro::before {
+  content: ''; position: absolute; top: -2px; left: 0; right: 0;
+  height: 6px; background: var(--crimson);
+}
+.intro-inner {
+  max-width: 900px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.intro-quote {
+  font-family: var(--font-hand);
+  font-size: clamp(1.8rem,3.5vw,2.6rem);
+  color: var(--crimson); line-height: 1.35; margin-bottom: 28px;
+  position: relative;
+}
+.intro-quote::before {
+  content: '\201C'; font-family: var(--font-display); font-size: 6rem;
+  color: var(--crimson); opacity: 0.15;
+  position: absolute; top: -40px; left: -20px; line-height: 1;
+}
+.intro-img-wrap {
+  position: relative; transform: rotate(1.5deg);
+}
+.intro-img-wrap img {
+  width: 100%; box-shadow: 8px 10px 40px rgba(0,0,0,0.2);
+  border: 8px solid white;
+}
+.tape {
+  position: absolute; width: 90px; height: 30px;
+  background: rgba(255,248,220,0.55);
+  border: 1px solid rgba(200,180,140,0.3); z-index: 5;
+}
+.tape-tl { top: -12px; left: 15px; transform: rotate(-8deg); }
+.tape-br { bottom: -12px; right: 15px; transform: rotate(5deg); }
+
+/* =============================================
+   SHARED SECTION STYLES
+============================================= */
+.section-label {
+  font-family: var(--font-hand); font-size: 1.1rem;
+  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px;
+}
+.section-num {
+  font-family: var(--font-display);
+  font-size: clamp(6rem,15vw,12rem); font-weight: 900; line-height: 1;
+  position: absolute; opacity: 0.06; user-select: none; pointer-events: none;
+}
+.heading-sm {
+  display: block; font-family: var(--font-hand);
+  font-size: clamp(1.3rem,2.5vw,1.7rem); font-weight: 400;
+}
+.heading-lg {
+  display: block; font-family: var(--font-display);
+  font-size: clamp(2.2rem,5.5vw,4rem); font-weight: 900; line-height: 1.1;
+}
+
+/* Placeholder area for user to add text */
+.text-placeholder {
+  margin-top: 30px;
+  padding: 24px;
+  border-left: 3px solid rgba(139,26,48,0.2);
+  min-height: 120px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--earth);
+}
+
+.text-placeholder em {
+  color: var(--crimson);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.text-placeholder-dark {
+  color: rgba(247,240,227,0.75);
+  border-left-color: rgba(232,201,106,0.3);
+}
+
+.text-placeholder-dark em {
+  color: var(--gold-light);
+}
+
+/* =============================================
+   SECTION 1: MODESTY (cobalt dark)
+============================================= */
+.modesty {
+  background: var(--cobalt-deep); color: var(--cream);
+  padding: 0; position: relative; overflow: hidden;
+}
+.modesty-layout {
+  display: grid; grid-template-columns: 55% 45%; min-height: 100vh;
+}
+.modesty-img-side { position: relative; overflow: hidden; }
+.modesty-img-side img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(1.2) contrast(1.1);
+}
+.modesty-img-side::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to right, transparent 30%, rgba(13,31,92,0.85) 100%);
+}
+.float-words {
+  position: absolute; inset: 0; z-index: 3;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: flex-start; padding: 60px;
+}
+.float-word {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem,5vw,4.5rem); font-weight: 900;
+  font-style: italic; color: rgba(247,240,227,0.12);
+  line-height: 1.2; letter-spacing: 0.05em;
+  transition: color 0.5s, text-shadow 0.5s;
+}
+.modesty-img-side:hover .float-word {
+  color: rgba(247,240,227,0.6);
+  text-shadow: 0 0 40px rgba(212,33,61,0.3);
+}
+.float-word:nth-child(2) { transition-delay: 0.08s; margin-left: 30px; }
+.float-word:nth-child(3) { transition-delay: 0.16s; margin-left: 60px; }
+.modesty-text-side {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 60px; position: relative;
+}
+.modesty .section-num { top: 40px; right: 40px; color: rgba(247,240,227,0.06); }
+.modesty .section-label { color: var(--gold-light); }
+.modesty .heading-sm { color: var(--gold-light); }
+.modesty .heading-lg { color: var(--cream); margin-bottom: 10px; }
+
+/* =============================================
+   SECTION 2: DOMESTIC (warm cream)
+============================================= */
+.domestic {
+  background: var(--cream-dark); padding: 120px 30px;
+  position: relative; overflow: hidden;
+}
+.domestic .section-num { top: 30px; left: 30px; color: var(--crimson); }
+.domestic-layout {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.domestic-text-side { position: relative; z-index: 2; }
+.domestic .section-label { color: var(--earth); }
+.domestic .heading-sm { color: var(--earth); }
+.domestic .heading-lg { color: var(--ink); margin-bottom: 10px; }
+.domestic-img-side { position: relative; }
+.domestic-img-frame {
+  position: relative; transform: rotate(-1.5deg);
+  transition: transform 0.6s ease;
+}
+.domestic-img-frame:hover { transform: rotate(0deg) scale(1.02); }
+.domestic-img-frame img {
+  width: 100%; border: 10px solid white;
+  box-shadow: 6px 10px 40px rgba(0,0,0,0.18);
+}
+.marigold-dot {
+  position: absolute; width: 80px; height: 80px; border-radius: 50%;
+  background: radial-gradient(circle, var(--marigold) 0%, var(--gold) 100%);
+  opacity: 0.2; top: -30px; right: -20px; z-index: 0;
+}
+
+/* =============================================
+   SECTION 3: EDUCATION (dark ink)
+============================================= */
+.education {
+  background: var(--ink); color: var(--cream);
+  padding: 120px 30px; position: relative; overflow: hidden;
+}
+.education .section-num { bottom: 20px; right: 40px; color: rgba(247,240,227,0.04); }
+.education-header {
+  text-align: center; max-width: 800px; margin: 0 auto 70px;
+}
+.education .section-label { color: var(--gold); }
+.education .heading-sm { color: var(--gold-light); }
+.education .heading-lg { color: var(--cream); }
+.education-grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+}
+.education-img-wrap { position: relative; overflow: hidden; }
+.education-img-wrap img {
+  width: 100%; height: 500px; object-fit: cover;
+  filter: grayscale(100%) contrast(1.15);
+  transition: filter 1.5s ease;
+}
+.education-img-wrap:hover img {
+  filter: grayscale(0%) contrast(1.05) saturate(1.3);
+}
+.education-img-wrap::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(to right, var(--crimson), var(--gold), var(--cobalt));
+}
+.education-img-label {
+  font-family: var(--font-hand); font-size: 1rem;
+  color: rgba(247,240,227,0.4); margin-top: 12px; text-align: center;
+}
+.education-text-side { padding-top: 30px; }
+
+/* =============================================
+   INTERACTIVE
+============================================= */
+.interactive {
+  padding: 120px 30px; background: var(--crimson);
+  position: relative; overflow: hidden;
+}
+.interactive::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg,
+    transparent, transparent 40px,
+    rgba(0,0,0,0.04) 40px, rgba(0,0,0,0.04) 80px);
+  pointer-events: none;
+}
+.interactive-inner {
+  max-width: 900px; margin: 0 auto; text-align: center;
+  position: relative; z-index: 2;
+}
+.interactive-instruction {
+  font-family: var(--font-hand); font-size: 1.5rem;
+  color: rgba(247,240,227,0.5); margin-bottom: 16px; letter-spacing: 0.1em;
+}
+.interactive-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem,5vw,3.5rem); font-weight: 900;
+  color: var(--cream); margin-bottom: 60px;
+}
+.cards-grid {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 24px;
+}
+.flip-card { perspective: 900px; cursor: pointer; aspect-ratio: 1.3; }
+.flip-card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4,0.0,0.2,1);
+  transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  display: flex; align-items: center; justify-content: center; padding: 32px;
+}
+.flip-front {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(247,240,227,0.15);
+  backdrop-filter: blur(4px);
+}
+.flip-front p {
+  font-family: var(--font-display);
+  font-size: clamp(1rem,2vw,1.3rem);
+  font-style: italic; font-weight: 400;
+  color: rgba(247,240,227,0.7); line-height: 1.5;
+}
+.flip-back {
+  background: var(--ink); border: 2px solid var(--gold);
+  transform: rotateY(180deg);
+}
+.flip-back p {
+  font-family: var(--font-hand);
+  font-size: clamp(1.4rem,2.8vw,2rem);
+  color: var(--gold-light); line-height: 1.35;
+}
+
+/* =============================================
+   CONCLUSION
+============================================= */
+.conclusion {
+  padding: 140px 30px; background: var(--paper); position: relative;
+}
+.conclusion::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--crimson), var(--gold), var(--cobalt));
+}
+.conclusion-inner {
+  max-width: 720px; margin: 0 auto; text-align: center;
+}
+.conclusion-text-area {
+  min-height: 100px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--earth);
+  text-align: left;
+}
+.conclusion-text-area em {
+  color: var(--crimson); font-style: italic;
+}
+.conclusion-end {
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  margin-top: 50px;
+}
+.end-line { width: 60px; height: 2px; background: var(--crimson); }
+.conclusion-end span {
+  font-family: var(--font-hand); font-size: 2rem; color: var(--earth);
+}
+
+/* =============================================
+   FOOTER
+============================================= */
+.footer {
+  background: var(--ink); color: var(--cream);
+  padding: 50px 30px 30px; text-align: center; position: relative;
+}
+.footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--crimson);
+}
+.footer-title {
+  font-family: var(--font-display); font-size: 0.85rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(247,240,227,0.4);
+}
+.footer-year {
+  font-family: var(--font-body); font-size: 0.7rem;
+  color: rgba(247,240,227,0.2); margin-top: 6px; letter-spacing: 0.2em;
+}
+.footer-hand {
+  font-family: var(--font-hand); font-size: 1.3rem;
+  color: var(--crimson-bright); margin-top: 14px;
+}
+
+/* =============================================
+   SCROLL REVEAL
+============================================= */
+.reveal {
+  opacity: 0; transform: translateY(35px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.vis { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+
+/* =============================================
+   KEYFRAMES
+============================================= */
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes bounce {
+  0%,20%,50%,80%,100%{transform:translateY(0)}
+  40%{transform:translateY(5px)} 60%{transform:translateY(2px)}
+}
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 900px) {
+  .intro-inner, .modesty-layout, .domestic-layout, .education-grid {
+    grid-template-columns: 1fr;
+  }
+  .modesty-layout { min-height: auto; }
+  .modesty-img-side { height: 50vh; }
+  .modesty-text-side { padding: 50px 30px; }
+  .float-words { padding: 30px; }
+  .cards-grid { grid-template-columns: repeat(2,1fr); }
+  .domestic-layout { gap: 40px; }
+  .education-img-wrap img { height: 350px; }
+}
+
+@media (max-width: 600px) {
+  .modesty-img-side { height: 40vh; }
+  .modesty-text-side, .intro, .domestic, .education,
+  .interactive, .conclusion { padding: 70px 20px; }
+  .cards-grid { gap: 12px; }
+  .flip-card { aspect-ratio: auto; min-height: 150px; }
+  .float-word { font-size: 2rem !important; }
+  .float-word:nth-child(2) { margin-left: 10px; }
+  .float-word:nth-child(3) { margin-left: 20px; }
+  .domestic-img-frame { transform: rotate(0); }
+  .intro-img-wrap { transform: rotate(0); margin-top: 30px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#landing" class="nav-brand">GD / BF</a>
+    <div class="nav-dots">
+      <button class="nav-dot" onclick="smoothTo('#modesty')"></button>
+      <button class="nav-dot" onclick="smoothTo('#domestic')"></button>
+      <button class="nav-dot" onclick="smoothTo('#education')"></button>
+      <button class="nav-dot" onclick="smoothTo('#interactive')"></button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- =============================================
+     LANDING — Uses IMG_0758.jpg as background
+============================================= -->
+<section id="landing" class="landing">
+  <div class="landing-bg"></div>
+  <div class="landing-content">
+    <p class="landing-tag">a project on cultural expectations &amp; identity</p>
+    <h1 class="landing-title">
+      <span class="title-good">Good Daughter</span>
+      <span class="title-slash">/</span>
+      <span class="title-bad">Bad Feminist</span>
+    </h1>
+    <p class="landing-sub">On cultural expectations &amp; identity</p>
+    <button class="enter-btn" id="enter-btn">
+      Enter
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
+    </button>
+  </div>
+</section>
+
+
+<!-- =============================================
+     INTRO — Quote + collage image
+============================================= -->
+<section id="intro" class="intro">
+  <div class="intro-inner">
+    <div class="reveal">
+      <p class="intro-quote">What does it mean to love your culture and still want to break free from it?</p>
+    </div>
+    <div class="intro-img-wrap reveal reveal-delay-1">
+      <div class="tape tape-tl"></div>
+      <div class="tape tape-br"></div>
+      <img src="IMG_0758.jpg" alt="...." />
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 1: MODESTY
+     Text area is empty — add your reflection here
+============================================= -->
+<section id="modesty" class="modesty">
+  <div class="modesty-layout">
+    <div class="modesty-img-side">
+      <img src="collage.jpg" alt="Women in traditional covering" />
+      <div class="float-words">
+        <span class="float-word">modest</span>
+        <span class="float-word">pure</span>
+        <span class="float-word">quiet</span>
+      </div>
+    </div>
+    <div class="modesty-text-side">
+      <div class="section-num">01</div>
+      <div class="reveal">
+        <p class="section-label">Section one</p>
+        <h2>
+          <span class="heading-sm">You should</span>
+          <span class="heading-lg">stay covered.</span>
+        </h2>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <!-- EDIT: Add your reflection text inside this div -->
+        <div class="text-placeholder text-placeholder-dark">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 2: DOMESTIC LABOR
+     Text area is empty — add your reflection here
+============================================= -->
+<section id="domestic" class="domestic">
+  <div class="section-num">02</div>
+  <div class="domestic-layout">
+    <div class="domestic-text-side">
+      <div class="reveal">
+        <p class="section-label">Section two</p>
+        <h2>
+          <span class="heading-sm">You should</span>
+          <span class="heading-lg">take care of the home.</span>
+        </h2>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <!-- EDIT: Add your reflection text inside this div -->
+        <div class="text-placeholder">
+
+        </div>
+      </div>
+    </div>
+    <div class="domestic-img-side reveal reveal-delay-2">
+      <div class="marigold-dot"></div>
+      <div class="domestic-img-frame">
+        <img src="domestic.jpg" alt="..." />
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     SECTION 3: EDUCATION
+     Text area is empty — add your reflection here
+============================================= -->
+<section id="education" class="education">
+  <div class="section-num">03</div>
+  <div class="education-header reveal">
+    <p class="section-label">Section three</p>
+    <h2>
+      <span class="heading-sm">You should not</span>
+      <span class="heading-lg">prioritize yourself.</span>
+    </h2>
+  </div>
+  <div class="education-grid">
+    <div class="education-img-wrap reveal">
+      <img src="IMG_0739_2.jpg" alt="..." />
+      <p class="education-img-label">hover to see in color</p>
+    </div>
+    <div class="education-text-side reveal reveal-delay-1">
+      <!-- EDIT: Add your reflection text inside this div -->
+      <div class="text-placeholder text-placeholder-dark">
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     INTERACTIVE: YOU SHOULD / BUT I — 4 cards
+============================================= -->
+<section id="interactive" class="interactive">
+  <div class="interactive-inner">
+    <p class="interactive-instruction reveal">tap to resist</p>
+    <h2 class="interactive-title reveal reveal-delay-1">You should… / But I…</h2>
+    <div class="cards-grid reveal reveal-delay-2">
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front"><p>You should stay quiet.</p></div>
+          <div class="flip-back"><p>But I have things to say.</p></div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front"><p>You should marry young.</p></div>
+          <div class="flip-back"><p>But I chose myself first.</p></div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front"><p>You should not go far.</p></div>
+          <div class="flip-back"><p>But I crossed oceans.</p></div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front"><p>You should obey.</p></div>
+          <div class="flip-back"><p>But I learned to question.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =============================================
+     CONCLUSION
+     Text area is empty — add your final thoughts here
+============================================= -->
+<section id="conclusion" class="conclusion">
+  <div class="conclusion-inner">
+    <div class="reveal">
+      <!-- EDIT: Add your concluding reflection inside this div -->
+      <div class="conclusion-text-area">
+
+      </div>
+    </div>
+    <div class="conclusion-end reveal reveal-delay-1">
+      <div class="end-line"></div>
+      <div class="end-line"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <!-- EDIT: Update your name and project info -->
+  <p class="footer-title">Good Daughter / Bad Feminist</p>
+  <p class="footer-year">2026</p>
+  <p class="footer-hand">made with love &amp; rage</p>
+</footer>
+
+
+<script>
+function smoothTo(sel) {
+  var el = document.querySelector(sel);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+document.getElementById('enter-btn').addEventListener('click', function() {
+  smoothTo('#intro');
+});
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function() {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('vis');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+reveals.forEach(function(el) { observer.observe(el); });
+</script>
+
+</body>
+</html>
